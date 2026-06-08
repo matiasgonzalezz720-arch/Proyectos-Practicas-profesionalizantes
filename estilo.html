@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cultura del Cafe — Guía de Estilo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --espresso:    #2C1A0E;
+      --cafe-oscuro: #6F3C1B;
+      --caramelo:    #B5651D;
+      --latte:       #D4A96A;
+      --crema:       #F5ECD7;
+      --menta:       #3D6B57;
+      --blanco:      #FFFFFF;
+      --fondo:       #FAF4E8;
+      --texto:       #2C1A0E;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Lato', sans-serif;
+      --radio: 8px;
+      --sombra: 0 4px 20px rgba(44,26,14,0.12);
+      --t: 0.3s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-body); background: var(--fondo); color: var(--texto); font-size: 16px; line-height: 1.7; }
+
+    .hero {
+      background: var(--espresso);
+      background-image: radial-gradient(ellipse at 20% 50%, rgba(111,60,27,0.6) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 30%, rgba(181,101,29,0.3) 0%, transparent 50%);
+      color: var(--crema); text-align: center; padding: 5rem 2rem 4rem; position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content:''; position:absolute; inset:0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23D4A96A' fill-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events:none;
+    }
+    .hero-inner { position:relative; z-index:1; }
+    .badge { display:inline-block; background:var(--caramelo); color:#fff; font-size:0.75rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; padding:0.35rem 0.9rem; border-radius:999px; margin-bottom:1.2rem; }
+    .hero h1 { font-family:var(--font-display); font-size:clamp(2.8rem,6vw,5rem); font-weight:700; line-height:1.1; margin-bottom:0.75rem; }
+    .hero-sub { font-size:1.1rem; font-weight:300; color:var(--latte); font-style:italic; }
+
+    .container { max-width:860px; margin:0 auto; padding:3rem 1.5rem 4rem; }
+    .section { margin-bottom:4rem; padding-bottom:4rem; border-bottom:1px solid rgba(181,101,29,0.18); }
+    .section:last-child { border-bottom:none; }
+    .section-title { font-family:var(--font-display); font-size:1.75rem; font-weight:700; color:var(--cafe-oscuro); margin-bottom:1.5rem; padding-bottom:0.5rem; border-bottom:3px solid var(--caramelo); display:inline-block; }
+    .section-desc { color:#7a5c3d; font-size:0.9rem; margin-bottom:1.5rem; font-style:italic; }
+
+    .palette-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(120px,1fr)); gap:1rem; }
+    .swatch { background:var(--c); border-radius:var(--radio); padding:3rem 0.5rem 0.75rem; text-align:center; box-shadow:var(--sombra); transition:transform var(--t); }
+    .swatch:hover { transform:translateY(-4px); }
+    .swatch-name, .swatch-hex { display:block; font-size:0.75rem; font-weight:700; color:rgba(255,255,255,0.9); text-shadow:0 1px 3px rgba(0,0,0,0.4); }
+    .swatch-hex { font-weight:300; opacity:0.8; margin-top:2px; }
+
+    .typo-block { margin-bottom:2rem; }
+    .typo-label { font-size:0.75rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--caramelo); margin-bottom:0.5rem; }
+    .typo-display { font-family:var(--font-display); font-size:1.9rem; font-style:italic; color:var(--espresso); line-height:1.3; }
+    .typo-body { font-weight:300; font-size:1.05rem; color:#4a3420; max-width:600px; }
+    .typo-scale { display:flex; flex-wrap:wrap; gap:1.2rem; align-items:baseline; font-family:var(--font-display); color:var(--cafe-oscuro); background:var(--crema); padding:1.5rem; border-radius:var(--radio); border-left:4px solid var(--caramelo); }
+
+    .accordion { display:flex; flex-direction:column; gap:0.75rem; }
+    .accordion-item { border:1px solid rgba(181,101,29,0.3); border-radius:var(--radio); overflow:hidden; background:var(--blanco); box-shadow:0 2px 8px rgba(44,26,14,0.06); }
+    .accordion-btn { width:100%; display:flex; justify-content:space-between; align-items:center; padding:1rem 1.25rem; background:none; border:none; cursor:pointer; font-family:var(--font-display); font-size:1.05rem; color:var(--espresso); text-align:left; transition:background var(--t); }
+    .accordion-btn:hover { background:rgba(212,169,106,0.12); }
+    .accordion-btn[aria-expanded="true"] { background:rgba(181,101,29,0.08); }
+    .accordion-icon { font-size:1.4rem; font-weight:300; color:var(--caramelo); transition:transform var(--t); line-height:1; min-width:24px; text-align:center; }
+    .accordion-btn[aria-expanded="true"] .accordion-icon { transform:rotate(45deg); }
+    .accordion-content { max-height:0; overflow:hidden; transition:max-height 0.4s ease, padding 0.3s ease; padding:0 1.25rem; }
+    .accordion-content.open { max-height:300px; padding:0 1.25rem 1.25rem; }
+    .accordion-content p { font-size:0.95rem; color:#4a3420; line-height:1.8; border-left:3px solid var(--latte); padding-left:1rem; }
+
+    .style-form { background:var(--blanco); padding:2rem; border-radius:12px; box-shadow:var(--sombra); max-width:560px; }
+    .form-group { margin-bottom:1.4rem; display:flex; flex-direction:column; gap:0.4rem; }
+    .form-group label { font-weight:700; font-size:0.85rem; letter-spacing:0.04em; color:var(--cafe-oscuro); text-transform:uppercase; }
+    .form-group input, .form-group select, .form-group textarea {
+      font-family:var(--font-body); font-size:0.97rem; padding:0.75rem 1rem;
+      border:2px solid rgba(181,101,29,0.25); border-radius:var(--radio);
+      background:var(--fondo); color:var(--texto); outline:none;
+      transition: border-color var(--t), box-shadow var(--t), background var(--t), transform 0.2s ease;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color:var(--caramelo); background:#fff;
+      box-shadow: 0 0 0 4px rgba(181,101,29,0.18), 0 4px 16px rgba(181,101,29,0.12);
+      transform:translateY(-2px);
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color:#c0a880; font-style:italic; }
+    .form-group textarea { resize:vertical; min-height:100px; }
+
+    .btn-group { display:flex; flex-wrap:wrap; gap:1rem; align-items:flex-start; }
+    .btn-3d { font-family:var(--font-body); font-size:0.95rem; font-weight:700; padding:0.8rem 1.6rem; border:none; border-radius:var(--radio); cursor:pointer; position:relative; transition:transform 0.1s ease, box-shadow 0.1s ease; letter-spacing:0.02em; }
+    .btn-primary   { background:var(--caramelo); color:#fff; box-shadow:0 6px 0 #7a3e0e, 0 8px 12px rgba(44,26,14,0.25); }
+    .btn-primary:hover   { box-shadow:0 8px 0 #7a3e0e, 0 10px 16px rgba(44,26,14,0.3); transform:translateY(-2px); }
+    .btn-primary:active  { box-shadow:0 2px 0 #7a3e0e; transform:translateY(4px); }
+    .btn-secondary { background:var(--latte); color:var(--espresso); box-shadow:0 6px 0 #9c7a3e, 0 8px 12px rgba(44,26,14,0.2); }
+    .btn-secondary:hover  { box-shadow:0 8px 0 #9c7a3e; transform:translateY(-2px); }
+    .btn-secondary:active { box-shadow:0 2px 0 #9c7a3e; transform:translateY(4px); }
+    .btn-accent { background:var(--menta); color:#fff; box-shadow:0 6px 0 #254035, 0 8px 12px rgba(61,107,87,0.3); }
+    .btn-accent:hover  { box-shadow:0 8px 0 #254035; transform:translateY(-2px); }
+    .btn-accent:active { box-shadow:0 2px 0 #254035; transform:translateY(4px); }
+    .btn-dark { background:var(--espresso); color:var(--crema); box-shadow:0 6px 0 #0f0804, 0 8px 12px rgba(0,0,0,0.3); }
+    .btn-dark:hover  { box-shadow:0 8px 0 #0f0804; transform:translateY(-2px); }
+    .btn-dark:active { box-shadow:0 2px 0 #0f0804; transform:translateY(4px); }
+
+    .animated-links { list-style:none; display:flex; flex-direction:column; gap:0.5rem; }
+    .alink { font-family:var(--font-display); font-size:1.15rem; text-decoration:none; padding:0.6rem 0.2rem; display:inline-block; position:relative; transition:color 0.35s ease, letter-spacing 0.3s ease, padding-left 0.3s ease; }
+    .alink::after { content:''; position:absolute; bottom:2px; left:0; width:0; height:2px; border-radius:2px; transition:width 0.35s ease; }
+    .alink:hover { letter-spacing:0.04em; padding-left:0.5rem; }
+    .alink:hover::after { width:100%; }
+    .alink-1 { color:var(--cafe-oscuro); } .alink-1::after { background:var(--cafe-oscuro); } .alink-1:hover { color:var(--caramelo); }
+    .alink-2 { color:#8B4513; } .alink-2::after { background:#8B4513; } .alink-2:hover { color:var(--latte); }
+    .alink-3 { color:var(--menta); } .alink-3::after { background:var(--menta); } .alink-3:hover { color:#5a9478; }
+    .alink-4 { color:var(--caramelo); } .alink-4::after { background:var(--caramelo); } .alink-4:hover { color:var(--espresso); }
+    .alink-5 { color:#6b4f3a; } .alink-5::after { background:#6b4f3a; } .alink-5:hover { color:var(--menta); }
+
+    .footer { background:var(--espresso); color:rgba(212,169,106,0.7); text-align:center; padding:1.5rem; font-size:0.8rem; letter-spacing:0.05em; }
+
+    @media (max-width:600px) {
+      .hero h1 { font-size:2.5rem; }
+      .style-form { padding:1.25rem; }
+      .btn-group { flex-direction:column; }
+      .btn-3d { width:100%; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <span class="badge">Guía de Estilo</span>
+      <h1>Café &amp; Cultura</h1>
+      <p class="hero-sub">Diseño, sabor y tipografía</p>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="section">
+      <h2 class="section-title">01. Paleta de Colores</h2>
+      <div class="palette-grid">
+        <div class="swatch" style="--c:#2C1A0E;"><span class="swatch-name">Espresso</span><span class="swatch-hex">#2C1A0E</span></div>
+        <div class="swatch" style="--c:#6F3C1B;"><span class="swatch-name">Café Oscuro</span><span class="swatch-hex">#6F3C1B</span></div>
+        <div class="swatch" style="--c:#B5651D;"><span class="swatch-name">Caramelo</span><span class="swatch-hex">#B5651D</span></div>
+        <div class="swatch" style="--c:#D4A96A;"><span class="swatch-name">Latte</span><span class="swatch-hex">#D4A96A</span></div>
+        <div class="swatch" style="--c:#F5ECD7;"><span class="swatch-name">Crema</span><span class="swatch-hex">#F5ECD7</span></div>
+        <div class="swatch" style="--c:#3D6B57;"><span class="swatch-name">Menta</span><span class="swatch-hex">#3D6B57</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">02. Tipografía</h2>
+      <div class="typo-block">
+        <p class="typo-label">Display — Playfair Display</p>
+        <p class="typo-display">El arte del buen café comienza con los detalles.</p>
+      </div>
+      <div class="typo-block">
+        <p class="typo-label">Cuerpo — Lato Light</p>
+        <p class="typo-body">Cada taza cuenta una historia. La selección cuidadosa del grano, la temperatura exacta del agua y la paciencia del barista se combinan para crear una experiencia única e irrepetible.</p>
+      </div>
+      <div class="typo-scale">
+        <span style="font-size:2.5rem;">Coffee</span>
+        <span style="font-size:2rem;">Café</span>
+        <span style="font-size:1.5rem;">Caffè</span>
+        <span style="font-size:1rem;">Café</span>
+        <span style="font-size:0.85rem;">Kaffee</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">03. Acordeón de Textos</h2>
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-btn" aria-expanded="false">
+            <span>☕ Historia del Café</span><span class="accordion-icon">＋</span>
+          </button>
+          <div class="accordion-content">
+            <p>El café tiene sus orígenes en Etiopía, donde según la leyenda el pastor Kaldi observó que sus cabras se volvían más activas tras consumir ciertos frutos rojos. Desde allí viajó a Arabia y luego conquistó el mundo entero, convirtiéndose en la bebida más consumida después del agua.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn" aria-expanded="false">
+            <span>🌿 Variedades de Grano</span><span class="accordion-icon">＋</span>
+          </button>
+          <div class="accordion-content">
+            <p>Existen dos especies principales: <strong>Arabica</strong>, conocida por su sabor suave y aromático, y <strong>Robusta</strong>, de sabor más intenso y mayor contenido de cafeína. La calidad final depende del origen, el proceso de secado y el tueste aplicado.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn" aria-expanded="false">
+            <span>📚 Café y Literatura</span><span class="accordion-icon">＋</span>
+          </button>
+          <div class="accordion-content">
+            <p>Los cafés literarios fueron en el siglo XVIII los centros culturales más influyentes de Europa. Voltaire, Rousseau y Benjamin Franklin debatían ideas en el Café de Procope de París. Hoy, la tradición continúa en cada rincón del mundo donde un libro y una taza se encuentran.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">04. Formulario con Foco Resaltado</h2>
+      <p class="section-desc">Hacé clic en cada campo para ver el efecto de foco.</p>
+      <form class="style-form" onsubmit="return false;">
+        <div class="form-group">
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" placeholder="Ej: María González" />
+        </div>
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" placeholder="tu@correo.com" />
+        </div>
+        <div class="form-group">
+          <label for="pedido">Tu pedido favorito</label>
+          <select id="pedido">
+            <option value="">Seleccioná una opción…</option>
+            <option>Espresso doble</option>
+            <option>Cappuccino con canela</option>
+            <option>Latte de vainilla</option>
+            <option>Cold brew</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" rows="4" placeholder="¿Qué te inspira el café?"></textarea>
+        </div>
+        <button type="submit" class="btn-3d btn-primary">Enviar pedido</button>
+      </form>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">05. Botones 3D</h2>
+      <p class="section-desc">Presionalos para ver el efecto de profundidad.</p>
+      <div class="btn-group">
+        <button class="btn-3d btn-primary">☕ Pedir ahora</button>
+        <button class="btn-3d btn-secondary">📖 Ver menú</button>
+        <button class="btn-3d btn-accent">🌿 Reservar mesa</button>
+        <button class="btn-3d btn-dark">✉️ Contacto</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">06. Enlaces con Animación de Color</h2>
+      <p class="section-desc">Pasá el cursor sobre cada enlace para ver la transición.</p>
+      <ul class="animated-links">
+        <li><a href="#" class="alink alink-1">→ Historia del café</a></li>
+        <li><a href="#" class="alink alink-2">→ Nuestros orígenes</a></li>
+        <li><a href="#" class="alink alink-3">→ Galería de sabores</a></li>
+        <li><a href="#" class="alink alink-4">→ Reservar una degustación</a></li>
+        <li><a href="#" class="alink alink-5">→ Contacto y ubicación</a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Café &amp; Cultura · Guía de Estilo · TP2 — Práctica Profesional I · 2026</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.accordion-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var abierto = btn.getAttribute('aria-expanded') === 'true';
+        document.querySelectorAll('.accordion-btn').forEach(function(b) {
+          b.setAttribute('aria-expanded', 'false');
+          b.nextElementSibling.classList.remove('open');
+        });
+        if (!abierto) {
+          btn.setAttribute('aria-expanded', 'true');
+          btn.nextElementSibling.classList.add('open');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

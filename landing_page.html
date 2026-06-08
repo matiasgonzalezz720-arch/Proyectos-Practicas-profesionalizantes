@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeHub – TP2 Ejercicio 3</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --clr-dark:    #0f172a;   /* fondo oscuro principal */
+      --clr-navy:    #1e293b;   /* fondo de secciones */
+      --clr-primary: #38bdf8;   /* azul cielo – color de acento */
+      --clr-accent:  #818cf8;   /* violeta – acento secundario */
+      --clr-text:    #e2e8f0;   /* texto claro */
+      --clr-muted:   #94a3b8;   /* texto secundario */
+      --clr-card:    #1e293b;   /* fondo de tarjetas */
+      --clr-border:  rgba(56,189,248,0.2);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--clr-dark);
+      color: var(--clr-text);
+      margin: 0;
+      scroll-behavior: smooth; 
+    }
+
+    .navbar {
+      background: rgba(15,23,42,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--clr-border);
+      padding: 0.75rem 0;
+      position: sticky;    
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar-brand {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--clr-primary) !important;
+      letter-spacing: -0.02em;
+    }
+
+    .navbar-nav .nav-link {
+      color: var(--clr-muted) !important;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 0.4rem 0.9rem !important;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+      color: var(--clr-primary) !important;
+      background: rgba(56,189,248,0.08);
+    }
+
+    .navbar-toggler {
+      border: 1.5px solid var(--clr-border);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2856,189,248,0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(56,189,248,0.15), transparent),
+        var(--clr-dark);
+      text-align: center;
+      padding: 4rem 1rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(56,189,248,0.12);
+      border: 1px solid var(--clr-border);
+      color: var(--clr-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 6vw, 3.8rem);  /* tamaño adaptable */
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      color: var(--clr-muted);
+      max-width: 540px;
+      margin: 0 auto 2.25rem;
+      line-height: 1.7;
+    }
+
+    .btn-hero-primary {
+      background: var(--clr-primary);
+      color: var(--clr-dark);
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.75rem 1.75rem;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn-hero-primary:hover  { opacity: 0.9; }
+    .btn-hero-primary:active { transform: scale(0.97); }
+
+    .btn-hero-outline {
+      background: transparent;
+      color: var(--clr-text);
+      border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.73rem 1.75rem;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .btn-hero-outline:hover { border-color: var(--clr-primary); color: var(--clr-primary); }
+
+    #carouselCursos {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    }
+
+    .carousel-slide {
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-1 { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); }
+    .slide-2 { background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); }
+    .slide-3 { background: linear-gradient(135deg, #0d0d0d, #1a1a1a, #2c3e50); }
+    .slide-4 { background: linear-gradient(135deg, #12002f, #1e0050, #2d006e); }
+
+    .slide-content {
+      text-align: center;
+      padding: 2rem;
+      z-index: 2;
+    }
+
+    .slide-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .slide-content h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .slide-content p {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .slide-tag {
+      display: inline-block;
+      background: rgba(56,189,248,0.2);
+      border: 1px solid var(--clr-border);
+      color: var(--clr-primary);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      margin-bottom: 0.8rem;
+    }
+
+    .carousel-indicators [data-bs-target] {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      border: none;
+      margin: 0 4px;
+    }
+
+    .carousel-indicators .active {
+      background: var(--clr-primary);
+    }
+
+    /* Flechas del carrusel */
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+      filter: drop-shadow(0 0 4px rgba(0,0,0,0.8));
+    }
+
+    .section-title {
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      color: var(--clr-muted);
+      font-size: 0.9rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .course-card {
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      height: 100%;
+      transition: transform 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+
+    .course-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--clr-primary);
+    }
+
+    .course-card .card-icon {
+      font-size: 2rem;
+      margin-bottom: 0.9rem;
+      display: block;
+    }
+
+    .course-card h5 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+
+    .course-card p {
+      font-size: 0.82rem;
+      color: var(--clr-muted);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .badge-nivel {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+    }
+
+    .badge-beginner  { background: rgba(74,222,128,0.15); color: #4ade80; }
+    .badge-inter     { background: rgba(251,191, 36,0.15); color: #fbbf24; }
+    .badge-advanced  { background: rgba(248, 113,113,0.15); color: #f87171; }
+
+    .stats-section {
+      background: var(--clr-navy);
+      border-top: 1px solid var(--clr-border);
+      border-bottom: 1px solid var(--clr-border);
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .stat-number {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--clr-primary);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--clr-muted);
+      margin-top: 0.25rem;
+    }
+
+    .testimonial-card {
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      height: 100%;
+    }
+
+    .testimonial-card .quote {
+      font-size: 0.88rem;
+      color: var(--clr-text);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+      font-style: italic;
+    }
+
+    .testimonial-card .author {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .avatar-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--clr-dark);
+      flex-shrink: 0;
+    }
+
+    .author-info .name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .author-info .role {
+      font-size: 0.75rem;
+      color: var(--clr-muted);
+    }
+
+    .modal-content {
+      background: var(--clr-navy);
+      border: 1px solid var(--clr-border);
+      border-radius: 14px;
+    }
+
+    .modal-header {
+      border-bottom: 1px solid var(--clr-border);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .modal-title {
+      font-weight: 700;
+      color: #fff;
+      font-size: 1.1rem;
+    }
+
+    .modal-body { padding: 1.5rem; }
+
+    .modal-footer {
+      border-top: 1px solid var(--clr-border);
+      padding: 1rem 1.5rem;
+    }
+
+    .btn-close-custom {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #fff;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .btn-close-custom:hover { background: rgba(255,255,255,0.2); }
+
+    .modal-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.87rem;
+      color: var(--clr-text);
+    }
+
+    .modal-detail-item .icon { color: var(--clr-primary); font-size: 1.1rem; }
+
+    .btn-enroll {
+      background: var(--clr-primary);
+      color: var(--clr-dark);
+      border: none;
+      border-radius: 7px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.6rem 1.5rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn-enroll:hover { opacity: 0.85; }
+
+    footer {
+      background: rgba(0,0,0,0.4);
+      border-top: 1px solid var(--clr-border);
+      padding: 2.5rem 1rem 1.5rem;
+      text-align: center;
+    }
+
+    footer .brand { font-size: 1.2rem; font-weight: 700; color: var(--clr-primary); }
+    footer p      { font-size: 0.78rem; color: var(--clr-muted); margin-top: 0.5rem; }
+
+    @media (max-width: 576px) {
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .hero-buttons button { width: 100%; max-width: 280px; }
+
+      .carousel-slide { height: 300px; }
+      .slide-icon { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+
+      <!-- Logo / Brand -->
+      <a class="navbar-brand" href="#">&lt;trabajo practico 2&gt;</a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navMenu"
+        aria-controls="navMenu"
+        aria-expanded="false"
+        aria-label="Abrir menú"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-1">
+          <li class="nav-item">
+            <a class="nav-link active" href="#inicio">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#cursos">Cursos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#testimonios">Testimonios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contacto">Contacto</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+  <section id="inicio" class="hero">
+    <div class="container">
+
+      <span class="hero-badge">🚀 Plataforma de aprendizaje</span>
+
+      <h1>
+        Aprendé a programar<br>
+        <span class="gradient-text">desde cero hasta pro</span>
+      </h1>
+
+      <p>
+        Cursos prácticos de desarrollo web, mobile e inteligencia artificial.
+        Aprendé a tu ritmo con proyectos reales.
+      </p>
+
+      <div class="d-flex gap-3 justify-content-center flex-wrap hero-buttons">
+        <button
+          class="btn-hero-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#modalInscripcion"
+        >
+          Empezar gratis
+        </button>
+        <button class="btn-hero-outline" onclick="document.getElementById('cursos').scrollIntoView({behavior:'smooth'})">
+          Ver cursos
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="py-5">
+    <div class="container">
+      <h2 class="section-title text-center">Cursos destacados</h2>
+      <p class="section-subtitle text-center">Lo más elegido por nuestra comunidad</p>
+
+      <div
+        id="carouselCursos"
+        class="carousel slide"
+        data-bs-ride="carousel"
+        data-bs-interval="4000"
+      >
+
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselCursos" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselCursos" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselCursos" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          <button type="button" data-bs-target="#carouselCursos" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        </div>
+
+        <div class="carousel-inner">
+
+          <div class="carousel-item active">
+            <div class="carousel-slide slide-1">
+              <div class="slide-content">
+                <span class="slide-tag">Más popular</span>
+                <span class="slide-icon">🌐</span>
+                <h3>Desarrollo Web Full Stack</h3>
+                <p>HTML, CSS, JavaScript, React y Node.js. Del front al back en un solo curso.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="carousel-slide slide-2">
+              <div class="slide-content">
+                <span class="slide-tag">Nuevo</span>
+                <span class="slide-icon">🤖</span>
+                <h3>Inteligencia Artificial con Python</h3>
+                <p>Machine learning, redes neuronales y procesamiento de lenguaje natural.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="carousel-slide slide-3">
+              <div class="slide-content">
+                <span class="slide-tag">Recomendado</span>
+                <span class="slide-icon">📱</span>
+                <h3>Apps Mobile con React Native</h3>
+                <p>Creá aplicaciones para iOS y Android con un solo codebase en JavaScript.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="carousel-slide slide-4">
+              <div class="slide-content">
+                <span class="slide-tag">En demanda</span>
+                <span class="slide-icon">🔐</span>
+                <h3>Ciberseguridad Práctica</h3>
+                <p>Ethical hacking, análisis de vulnerabilidades y defensa de sistemas.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselCursos"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselCursos"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Siguiente</span>
+        </button>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section class="stats-section">
+    <div class="container">
+      <div class="row row-cols-2 row-cols-md-4 g-0">
+        <div class="col">
+          <div class="stat-item">
+            <span class="stat-number">12k+</span>
+            <span class="stat-label">Estudiantes activos</span>
+          </div>
+        </div>
+        <div class="col">
+          <div class="stat-item">
+            <span class="stat-number">48</span>
+            <span class="stat-label">Cursos disponibles</span>
+          </div>
+        </div>
+        <div class="col">
+          <div class="stat-item">
+            <span class="stat-number">96%</span>
+            <span class="stat-label">Tasa de satisfacción</span>
+          </div>
+        </div>
+        <div class="col">
+          <div class="stat-item">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">Soporte disponible</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="cursos" class="py-5">
+    <div class="container">
+      <h2 class="section-title text-center">Catálogo de cursos</h2>
+      <p class="section-subtitle text-center">Hacé clic en un curso para ver más detalles</p>
+
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+        <div class="col">
+          <div
+            class="course-card"
+            onclick="abrirModal('HTML & CSS Desde Cero', 'Beginner', '40 hs', 'Gratis', '🎨', 'Aprendé a construir páginas web estáticas con HTML5 semántico y CSS3 moderno. Incluye diseño responsivo y Flexbox.')"
+          >
+            <span class="card-icon">🎨</span>
+            <h5>HTML & CSS Desde Cero</h5>
+            <p>Fundamentos del desarrollo web. Creá tus primeras páginas con buenas prácticas.</p>
+            <span class="badge-nivel badge-beginner">Principiante</span>
+          </div>
+        </div>
+
+        <div class="col">
+          <div
+            class="course-card"
+            onclick="abrirModal('JavaScript Moderno', 'Intermedio', '60 hs', '$4.900', '⚡', 'ES6+, promesas, async/await, manipulación del DOM, APIs REST y fundamentos de programación orientada a objetos.')"
+          >
+            <span class="card-icon">⚡</span>
+            <h5>JavaScript Moderno</h5>
+            <p>De las bases al ES6+ con proyectos prácticos. Dominá el lenguaje del navegador.</p>
+            <span class="badge-nivel badge-inter">Intermedio</span>
+          </div>
+        </div>
+
+        <div class="col">
+          <div
+            class="course-card"
+            onclick="abrirModal('React & Next.js', 'Avanzado', '80 hs', '$8.900', '⚛️', 'Componentes, hooks, context API, routing con Next.js, SSR y despliegue en Vercel. Construí apps production-ready.')"
+          >
+            <span class="card-icon">⚛️</span>
+            <h5>React & Next.js</h5>
+            <p>Desarrollá aplicaciones web modernas con el framework más popular del ecosistema JS.</p>
+            <span class="badge-nivel badge-advanced">Avanzado</span>
+          </div>
+        </div>
+
+        <div class="col">
+          <div
+            class="course-card"
+            onclick="abrirModal('Python para Datos', 'Intermedio', '55 hs', '$6.500', '🐍', 'Pandas, NumPy, Matplotlib y Seaborn. Análisis exploratorio de datos y visualizaciones profesionales.')"
+          >
+            <span class="card-icon">🐍</span>
+            <h5>Python para Datos</h5>
+            <p>Analizá y visualizá datos con Python. Perfecto para ciencia de datos y automatización.</p>
+            <span class="badge-nivel badge-inter">Intermedio</span>
+          </div>
+        </div>
+
+        <div class="col">
+          <div
+            class="course-card"
+            onclick="abrirModal('Bases de Datos SQL', 'Beginner', '35 hs', '$3.500', '🗄️', 'MySQL, PostgreSQL, diseño relacional, consultas avanzadas, joins, índices y procedimientos almacenados.')"
+          >
+            <span class="card-icon">🗄️</span>
+            <h5>Bases de Datos SQL</h5>
+            <p>Diseñá, consultá y optimizá bases de datos relacionales con MySQL y PostgreSQL.</p>
+            <span class="badge-nivel badge-beginner">Principiante</span>
+          </div>
+        </div>
+
+        <div class="col">
+          <div
+            class="course-card"
+            onclick="abrirModal('DevOps & Docker', 'Avanzado', '70 hs', '$9.200', '🐳', 'Contenedores con Docker, orquestación con Kubernetes, CI/CD con GitHub Actions y despliegue en AWS.')"
+          >
+            <span class="card-icon">🐳</span>
+            <h5>DevOps & Docker</h5>
+            <p>Automatizá despliegues y gestioná infraestructura como un profesional.</p>
+            <span class="badge-nivel badge-advanced">Avanzado</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section id="testimonios" class="py-5" style="background: var(--clr-navy);">
+    <div class="container">
+      <h2 class="section-title text-center">Lo que dicen nuestros estudiantes</h2>
+      <p class="section-subtitle text-center">Más de 12.000 personas ya cambiaron su carrera</p>
+
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        <div class="col">
+          <div class="testimonial-card">
+            <p class="quote">"En 6 meses pasé de no saber nada de programación a conseguir mi primer trabajo como developer frontend. Los proyectos prácticos hacen toda la diferencia."</p>
+            <div class="author">
+              <div class="avatar-circle">LR</div>
+              <div class="author-info">
+                <p class="name">Lucía Rodríguez</p>
+                <p class="role">Frontend Developer @ StartupBA</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="testimonial-card">
+            <p class="quote">"El curso de Python para Datos me dio todas las herramientas que necesitaba. Los ejercicios son muy prácticos y el soporte de la comunidad es increíble."</p>
+            <div class="author">
+              <div class="avatar-circle">MP</div>
+              <div class="author-info">
+                <p class="name">Mateo Paredes</p>
+                <p class="role">Data Analyst @ Mercado Libre</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="testimonial-card">
+            <p class="quote">"Lo mejor es que puedo aprender a mi ritmo. Trabajo de día y estudio de noche. La calidad del contenido es excelente y siempre está actualizado."</p>
+            <div class="author">
+              <div class="avatar-circle">SA</div>
+              <div class="author-info">
+                <p class="name">Sofía Almeida</p>
+                <p class="role">Full Stack Dev @ RemoteWork</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section id="contacto" class="py-5 text-center">
+    <div class="container" style="max-width: 560px;">
+      <h2 class="section-title">¿Listo para empezar?</h2>
+      <p class="section-subtitle">Unite a miles de estudiantes que ya están aprendiendo.</p>
+      <button
+        class="btn-hero-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#modalInscripcion"
+      >
+        Inscribirme ahora
+      </button>
+    </div>
+  </section>
+
+
+  <footer>
+    <p class="brand">&lt;CodeHub/&gt;</p>
+    <p>TP2 · Ejercicio 3 · Matias Leonardo Gonzalez · Tecnicatura en Desarrollo de Software · 2026</p>
+  </footer>
+
+
+  <div
+    class="modal fade"
+    id="modalCurso"
+    tabindex="-1"
+    aria-labelledby="modalCursoLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <span id="modalCursoIcon" style="font-size:1.4rem; margin-right:0.75rem;"></span>
+          <h5 class="modal-title" id="modalCursoLabel">Título del curso</h5>
+          <button type="button" class="btn-close-custom ms-auto" data-bs-dismiss="modal" aria-label="Cerrar">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <p id="modalCursoDesc" style="font-size:0.87rem; color:var(--clr-muted); margin-bottom:1.25rem; line-height:1.7;"></p>
+
+          <div id="modalCursoNivel"    class="modal-detail-item"><span class="icon">📊</span> <span></span></div>
+          <div id="modalCursoDuracion" class="modal-detail-item"><span class="icon">⏱️</span> <span></span></div>
+          <div id="modalCursoPrecio"   class="modal-detail-item"><span class="icon">💰</span> <span></span></div>
+          <div class="modal-detail-item"><span class="icon">🎓</span> <span>Certificado al completar</span></div>
+          <div class="modal-detail-item"><span class="icon">📱</span> <span>Acceso desde móvil y desktop</span></div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" style="color:var(--clr-muted); background:none; border:none; font-size:0.85rem; cursor:pointer;" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn-enroll" data-bs-dismiss="modal">Inscribirme</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="modalInscripcion"
+    tabindex="-1"
+    aria-labelledby="modalInscripcionLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalInscripcionLabel">🚀 Empezá gratis hoy</h5>
+          <button type="button" class="btn-close-custom ms-auto" data-bs-dismiss="modal" aria-label="Cerrar">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <p style="font-size:0.87rem; color:var(--clr-muted); margin-bottom:1.25rem;">
+            Creá tu cuenta gratuita y accedé a los primeros módulos sin costo. Sin tarjeta de crédito.
+          </p>
+
+          <div class="mb-3">
+            <label style="font-size:0.82rem; font-weight:500; color:var(--clr-text); display:block; margin-bottom:0.35rem;">Nombre completo</label>
+            <input type="text" class="form-control" placeholder="Tu nombre" style="background:#0f172a; color:var(--clr-text); border-color:var(--clr-border);" />
+          </div>
+          <div class="mb-3">
+            <label style="font-size:0.82rem; font-weight:500; color:var(--clr-text); display:block; margin-bottom:0.35rem;">Correo electrónico</label>
+            <input type="email" class="form-control" placeholder="ejemplo@correo.com" style="background:#0f172a; color:var(--clr-text); border-color:var(--clr-border);" />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" style="color:var(--clr-muted); background:none; border:none; font-size:0.85rem; cursor:pointer;" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn-enroll" data-bs-dismiss="modal">Crear cuenta gratis</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function abrirModal(titulo, nivel, duracion, precio, icono, descripcion) {
+      /* Inyectar los datos en los elementos del modal */
+      document.getElementById('modalCursoLabel').textContent    = titulo;
+      document.getElementById('modalCursoIcon').textContent     = icono;
+      document.getElementById('modalCursoDesc').textContent     = descripcion;
+      document.querySelector('#modalCursoNivel span:last-child').textContent    = 'Nivel: ' + nivel;
+      document.querySelector('#modalCursoDuracion span:last-child').textContent = 'Duración: ' + duracion;
+      document.querySelector('#modalCursoPrecio span:last-child').textContent   = 'Precio: ' + precio;
+
+      const modal = new bootstrap.Modal(document.getElementById('modalCurso'));
+      modal.show();
+    }
+
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(function (link) {
+      link.addEventListener('click', function () {
+        /* Obtener la instancia del colapso y cerrarlo */
+        const navCollapse = document.getElementById('navMenu');
+        const bsCollapse  = bootstrap.Collapse.getInstance(navCollapse);
+        if (bsCollapse) bsCollapse.hide();
+      });
+    });
+  </script>
+
+</body>
+</html>
